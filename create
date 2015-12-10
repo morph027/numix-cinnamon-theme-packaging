@@ -1,0 +1,31 @@
+#!/bin/bash
+
+create_package() {
+TYPE="$1"
+fpm -f -s dir -t $TYPE -n numix-cinnamon-theme \
+--prefix="/usr/share/themes" \
+--vendor "morph027" \
+--maintainer "morph027" \
+--version "$(date +%Y%m%d)~git~$(git rev-parse --short HEAD)" \
+--after-install scripts/after-install.sh \
+--before-remove scripts/before-remove.sh \
+--depends numix-gtk-theme \
+-C numix-cinnamon \
+Numix-Cinnamon
+}
+
+which fpm > /dev/null
+
+if [ $? -eq 0 ]; then
+  if [ ! -d numix-cinnamon ]; then
+    git clone https://github.com/zagortenay333/numix-cinnamon.git
+  else
+    cd numix-cinnamon
+    git pull
+    cd ..
+  fi
+  create_package deb
+else
+  echo "fpm not found in PATH"
+  exit 1
+fi
