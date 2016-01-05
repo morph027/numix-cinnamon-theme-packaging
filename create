@@ -6,7 +6,7 @@ fpm -f -s dir -t $TYPE -n numix-cinnamon-theme \
 --prefix="/usr/share/themes" \
 --vendor "morph027" \
 --maintainer "morph027" \
---version "$(date +%Y%m%d)~git~$(git rev-parse --short HEAD)" \
+--version "$(date +%Y%m%d)~git~$(git -C numix-cinnamon rev-parse --short HEAD)" \
 --after-install scripts/after-install.sh \
 --before-remove scripts/before-remove.sh \
 --depends numix-gtk-theme \
